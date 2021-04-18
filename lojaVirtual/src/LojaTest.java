@@ -33,6 +33,8 @@ public class LojaTest {
 
         cuboMagico = new Brinquedo("Cubo Mágico");
         cuboMagico.setPrecoEmReais(12.50f);
+
+	loja.resetEstoque();
     }
 
     @Test
