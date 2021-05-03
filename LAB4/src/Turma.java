@@ -4,9 +4,9 @@ public class Turma {
 
     //private HashMap<Nome, Professor> professores = new HashMap<>(); // professores tem dre? não sei.
 
-    private HashMap<Integer, Aluno> alunos = new HashMap<>(); // alunos tem!
+    private HashMap<Long, Aluno> alunos = new HashMap<>(); // alunos tem!
 
-    private HashMap<Aluno, Float> notas = new HashMap<>();
+    private HashMap<Long, Float> notas = new HashMap<>();
 
     public void inscreverAluno(Aluno aluno) {
 	if (!alunos.containsValue(aluno.getDre())) {
@@ -15,11 +15,11 @@ public class Turma {
     }
 
     public void atribuirMediaFinal(long dre, float nota) {
-	notas.put(alunos.get(dre), nota);
+	notas.put(dre, nota);
     }
 
     public float obterMediaFinal(long dre) {
-	return notas.get(alunos.get(dre)); 
+	return notas.get(dre); 
     }
     
     public String listarAlunos() {
