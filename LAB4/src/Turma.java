@@ -15,7 +15,7 @@ public class Turma {
     }
 
     public void atribuirMediaFinal(long dre, float nota) {
-	alunos.put(alunos.get(dre), nota);
+	notas.put(alunos.get(dre), nota);
     }
 
     public float obterMediaFinal(long dre) {
@@ -25,7 +25,7 @@ public class Turma {
     public String listarAlunos() {
 	String lista = "";
 	for (Aluno aluno : alunos.values()) {
-	    lista += aluno.toString() + "\n";
+	    lista += aluno.toString() + " " + notas.get(aluno.getDre()) + "\n";
 	}
 	return lista;
     }
