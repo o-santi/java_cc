@@ -5,7 +5,7 @@ public class Repositorio {
 
     private static final String PREFIXO_URL_IMAGENS = "http://www.nossoalbum.com.br/imagens/";
 
-    private List<Figurinha> todasAsFigurinhas;
+    private List<Colecionavel> todasAsFigurinhas;
 
     public Repositorio(String sufixoUrlImagens, int quantFigurinhas) {
         todasAsFigurinhas = new ArrayList<>(quantFigurinhas + 1);
@@ -18,5 +18,9 @@ public class Repositorio {
 
     public int getTotalFigurinhas() {
         return this.todasAsFigurinhas.size() - 1;
+    }
+
+    public List<Colecionavel> getTodasFigurinhas() {
+	return this.todasAsFigurinhas;
     }
 }

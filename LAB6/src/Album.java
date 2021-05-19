@@ -13,7 +13,7 @@ public class Album {
     private final Repositorio repositorio;
     private final int quantItensPorPacotinho;
 
-    private List<Figurinha> figurinhasColadas;  // direct addressing
+    private List<Colecionavel> figurinhasColadas;  // direct addressing
     private int quantFigurinhasColadas;
 
     // poderíamos fazer novamente direct addressing para as repetidas,
@@ -36,12 +36,12 @@ public class Album {
     }
 
     public void receberNovoPacotinho(Pacotinho pacotinho) {
-        Figurinha[] figurinhasDoPacotinho = pacotinho.getFigurinhas();
+	Colecionavel[] figurinhasDoPacotinho = pacotinho.getFigurinhas();
         if (figurinhasDoPacotinho.length != this.quantItensPorPacotinho) {
             return;  // melhor ainda: lançaria uma checked exception
         }
 
-        for (Figurinha fig : pacotinho.getFigurinhas()) {
+        for (Colecionavel fig : pacotinho.getFigurinhas()) {
             final int posicao = fig.getPosicao();
             if (possuiItemColado(posicao)) {
                 // adiciona como repetida
@@ -63,7 +63,7 @@ public class Album {
         }
     }
 
-    public Figurinha getItemColado(int posicao) {
+    public Colecionavel getItemColado(int posicao) {
 	return this.figurinhasColadas.get(posicao);
     }
 
@@ -102,11 +102,7 @@ public class Album {
     public void autoCompletar() {
 	double porcentagemCompleta = (100.0 * getQuantItensColados()) / (double) getTamanho();
 	if (porcentagemCompleta >= (float) PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR) {
-	    figurinhasColadas = new ArrayList<>(getTamanho());
-	    figurinhasColadas.add(null);
-	    for (int i = 1; i < getTamanho(); i++) {
-		this.figurinhasColadas.add(new Figurinha(i, ""));
-	    }
+	    this.figurinhasColadas = this.repositorio.getTodasFigurinhas();
 	    this.quantFigurinhasColadas = this.repositorio.getTotalFigurinhas();
 	}
     }
