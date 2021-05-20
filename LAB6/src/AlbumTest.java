@@ -5,20 +5,20 @@ import static org.junit.Assert.*;
 
 public class AlbumTest {
 
-    private Album albumFigurinhas;
-    private Repositorio repositorioFigurinhas;
+    private Album<Figurinha> albumFigurinhas;
+    private Repositorio<Figurinha> repositorioFigurinhas;
 
     private static final int TAMANHO_DO_ALBUM = 200;
     private static final int ITENS_POR_PACOTE = 3;
 
     @Before  // roda antes de cada teste
     public void setUp() {
-        this.repositorioFigurinhas = new Repositorio("album_copa2014", TAMANHO_DO_ALBUM);
-        this.albumFigurinhas = new Album(repositorioFigurinhas, ITENS_POR_PACOTE);
+        this.repositorioFigurinhas = new Repositorio<>("FIGURINHA", "album_copa2014", TAMANHO_DO_ALBUM);
+        this.albumFigurinhas = new Album<>(repositorioFigurinhas, ITENS_POR_PACOTE);
     }
 
     private void popularAlbum(int[] posicoesDesejadas) {
-        Pacotinho pacote = new Pacotinho(this.repositorioFigurinhas, posicoesDesejadas);
+        Pacotinho<Figurinha> pacote = new Pacotinho<>(this.repositorioFigurinhas, posicoesDesejadas);
         this.albumFigurinhas.receberNovoPacotinho(pacote);
     }
 
@@ -89,7 +89,7 @@ public class AlbumTest {
                 (int) (TAMANHO_DO_ALBUM * Album.PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR / 100f);
 
         while (albumFigurinhas.getQuantItensColados() < minimoFigurinhasColadasParaAutoCompletar) {
-            Pacotinho novoPacotinho = new Pacotinho(
+            Pacotinho<Figurinha> novoPacotinho = new Pacotinho(
                     this.repositorioFigurinhas, ITENS_POR_PACOTE);  // aleatório
             albumFigurinhas.receberNovoPacotinho(novoPacotinho);
         }
@@ -123,6 +123,19 @@ public class AlbumTest {
         assertEquals("Pacotes de tamanho distinto do informado na construção " +
                 "do álbum devem ser rejeitados",
                 0, albumFigurinhas.getQuantItensColados());
+    }
+
+    @Test
+    public void testarAlbumDeSelos() {
+	Repositorio<Selo> seloRepo = new Repositorio<>("SELO", "selos mais raros de 2003", 20);
+	Album<Selo> selos = new Album(seloRepo, 3);
+	popularAlbum(new int[] {1, 2, 3});
+        assertEquals(TAMANHO_DO_ALBUM - 3,
+		     this.albumFigurinhas.getQuantItensFaltantes());
+	Pacotinho<Selo> pacote = new Pacotinho<>(seloRepo, new int[] {1, 2, 3});
+	selos.receberNovoPacotinho(pacote);
+        assertEquals(20 - 3, selos.getQuantItensFaltantes());
+
     }
 
 }

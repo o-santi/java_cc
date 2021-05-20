@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Album {
+public class Album <T extends Colecionavel> {
 
     public static final int PERCENTUAL_MINIMO_PARA_AUTO_COMPLETAR = 90;
 
     public static final Image IMAGEM_PADRAO_PARA_POSICAO_VAZIA = null;
 
-    private final Repositorio repositorio;
+    private final Repositorio<T> repositorio;
     private final int quantItensPorPacotinho;
 
-    private List<Colecionavel> figurinhasColadas;  // direct addressing
+    private List<T> figurinhasColadas;  // direct addressing
     private int quantFigurinhasColadas;
 
     // poderíamos fazer novamente direct addressing para as repetidas,
@@ -35,14 +35,14 @@ public class Album {
         this.contRepetidasByPosicao = new HashMap<>();
     }
 
-    public void receberNovoPacotinho(Pacotinho pacotinho) {
-	Colecionavel[] figurinhasDoPacotinho = pacotinho.getFigurinhas();
-        if (figurinhasDoPacotinho.length != this.quantItensPorPacotinho) {
+    public void receberNovoPacotinho(Pacotinho<T> pacotinho) {
+	ArrayList<T> figurinhasDoPacotinho = pacotinho.getFigurinhas();
+        if (figurinhasDoPacotinho.size() != this.quantItensPorPacotinho) {
             return;  // melhor ainda: lançaria uma checked exception
         }
-
-        for (Colecionavel fig : pacotinho.getFigurinhas()) {
-            final int posicao = fig.getPosicao();
+	
+        for (T fig : pacotinho.getFigurinhas()) {
+            int posicao = fig.getPosicao();
             if (possuiItemColado(posicao)) {
                 // adiciona como repetida
 
@@ -54,7 +54,6 @@ public class Album {
                 // jeito mais elegante: getOrDefault
                 int contRepetidas = this.contRepetidasByPosicao.getOrDefault(posicao, 0);
                 this.contRepetidasByPosicao.put(posicao, contRepetidas + 1);
-
             } else {
                 // item inédito
                 this.figurinhasColadas.set(posicao, fig);
@@ -63,12 +62,12 @@ public class Album {
         }
     }
 
-    public Colecionavel getItemColado(int posicao) {
+    public T getItemColado(int posicao) {
 	return this.figurinhasColadas.get(posicao);
     }
 
     public boolean possuiItemColado(int posicao) {
-	if ((posicao > 0) && (posicao <= getTamanho())) {
+	if ((posicao > 0)  && (posicao <= getTamanho())) {
 	    return this.figurinhasColadas.get(posicao) != null;
 	}
 	return false;

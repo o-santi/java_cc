@@ -1,17 +1,18 @@
 import java.util.Random;
+import java.util.ArrayList;
 
-public class Pacotinho {
+public class Pacotinho <T extends Colecionavel> {
 
-    private Repositorio repositorio;
+    private Repositorio<T> repositorio;
     
-    private Figurinha[] figurinhas;
-	
-    public Pacotinho(Repositorio repo, int[] posicoesDesejadas) {
+    private ArrayList<T> figurinhas;
+
+    public Pacotinho(Repositorio<T> repo, int[] posicoesDesejadas) {
 	this.repositorio = repo;
 	int index = 0;
-	figurinhas = new Figurinha[posicoesDesejadas.length];
+	figurinhas = new ArrayList<>(posicoesDesejadas.length);
 	for (int figurinhaNumero : posicoesDesejadas) {
-	    this.figurinhas[index] = new Figurinha(figurinhaNumero, "");
+	    this.figurinhas.add(repo.getFigurinhaEspecifica(figurinhaNumero));
 	    index++;
 	}
     }
@@ -23,17 +24,16 @@ public class Pacotinho {
      * @param repo o repositório desejado
      * @param quantFigurinhas a quantidade de figurinhas a constar no pacotinho
      */
-    public Pacotinho(Repositorio repo, int quantFigurinhas) {
+    public Pacotinho(Repositorio<T> repo, int quantFigurinhas) {
 	int tamanho = repo.getTotalFigurinhas();
 	Random rand = new Random();
-	figurinhas = new Figurinha[quantFigurinhas];
-
+	figurinhas = new ArrayList<>(quantFigurinhas);
 	for (int index = 0; index < quantFigurinhas; index++){
-	    this.figurinhas[index] = new Figurinha(rand.nextInt(tamanho) + 1, "");
+	    this.figurinhas.add(repo.getFigurinhaEspecifica(rand.nextInt(tamanho) + 1));
 	}
     }
 
-    public Figurinha[] getFigurinhas() {
-	return figurinhas;
+    public ArrayList<T> getFigurinhas() {
+	return this.figurinhas;
     }
 }

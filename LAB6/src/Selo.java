@@ -1,6 +1,8 @@
+import java.awt.*;
+
 public class Selo implements Colecionavel {
     
-    private float valorNominal;
+    private double valorNominal;
 
     private Image imagem;
     
@@ -8,18 +10,19 @@ public class Selo implements Colecionavel {
     
     private String pais;
 
-    public Selo(float valorNominal, String pais, Image imagem, int posicao) {
+    public Selo(double valorNominal, String pais, int posicao) {
 	this.valorNominal = valorNominal;
 
 	this.pais = pais;
 
-	this.imagem = imagem;
-
 	this.posicao = posicao;
     }
 
+    public Selo(int posicao, String url) {
+	this.posicao = posicao;
+    }
     
-    public float getValorNominal(){
+    public double getValorNominal(){
 	return this.valorNominal;
     }
 
