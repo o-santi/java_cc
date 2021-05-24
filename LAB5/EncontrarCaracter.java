@@ -19,7 +19,7 @@ public class EncontrarCaracter {
     }
 
     public static void main(String[] argv) {
-	String string = "Pinto";
+	String string = "otorrinolaringologista";
 	encontrarCaracterMaisFrequente(string);
     }
     
